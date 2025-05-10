@@ -3,3 +3,4 @@ uvicorn
 pickle5  
 scikit-learn
 pandas
+httpx
