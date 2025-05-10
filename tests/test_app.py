@@ -14,8 +14,12 @@ def test_predict_response():
         "Product_importance": 1,
         "Gender": 1,
         "Discount_offered": 10.0,
-        "Weight_in_gms": 2000.0
+        "Weight_in_gms": 2500.0
     }
     response = client.post("/predict", json=payload)
     assert response.status_code == 200
     assert response.json()["prediction"] in ["On-Time", "Delayed"]
+
+def test_dummy():
+    assert 1 == 1
+
