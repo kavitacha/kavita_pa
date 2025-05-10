@@ -25,13 +25,18 @@ class ShipmentData(BaseModel):
 # Predict endpoint
 @app.post("/predict")
 def predict_shipment(data: ShipmentData):
-    # Convert incoming data into a format the model expects
-    input_data = [data.dict().values()]
-    
-    # Make prediction
-    prediction = model.predict(input_data)
-    
-    # Return result as On-Time or Delayed
-    result = "On-Time" if prediction[0] == 1 else "Delayed"
-    
-    return {"prediction": result}
+    try:
+        # Convert incoming data into a format the model expects
+        input_data = [list(data.model_dump().values())]  # Use model_dump to extract values as list
+
+        # Make prediction
+        prediction = model.predict(input_data)
+
+        # Return result as On-Time or Delayed
+        result = "On-Time" if prediction[0] == 1 else "Delayed"
+
+        return {"prediction": result}
+    except Exception as e:
+        logger.error(f"Prediction failed: {str(e)}")
+        raise HTTPException(status_code=500, detail="Prediction failed")
+
