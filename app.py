@@ -1,6 +1,11 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import pickle
+import logging
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Load the trained model using pickle
 with open('model.pkl', 'rb') as f:
@@ -37,6 +42,7 @@ def predict_shipment(data: ShipmentData):
 
         return {"prediction": result}
     except Exception as e:
+        # Log the error and raise HTTPException
         logger.error(f"Prediction failed: {str(e)}")
         raise HTTPException(status_code=500, detail="Prediction failed")
 
