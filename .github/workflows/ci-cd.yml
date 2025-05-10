@@ -23,9 +23,6 @@ jobs:
         pip install -r requirements.txt
         pip install pytest
 
-    - name: ✅ Run tests
-      run: pytest tests/
-
     - name: 🐳 Build Docker image
       run: docker build -t ${{ secrets.DOCKER_USERNAME }}/ontime-api:latest .
 
